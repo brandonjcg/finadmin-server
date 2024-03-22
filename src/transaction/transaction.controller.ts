@@ -16,6 +16,7 @@ export class TransanctionController {
   constructor(private readonly transanctionService: TransanctionService) {}
   // TODO: implementar paginado
   // TODO: implementar borrado lógico
+  // TODO: implementar commit-msg
 
   @Post()
   create(@Body() createTransanctionDto: CreateTransactionDto) {

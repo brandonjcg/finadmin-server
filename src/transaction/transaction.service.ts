@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Transaction } from './schemas/transaction.schema';
 import { Model } from 'mongoose';
+import { Bank } from 'src/bank/schemas/bank.schema';
 
 @Injectable()
 export class TransanctionService {
@@ -15,7 +16,15 @@ export class TransanctionService {
   }
 
   async findAll(): Promise<Transaction[]> {
-    return this.transactionModel.find().exec();
+    return this.transactionModel
+      .find()
+      .populate([
+        {
+          path: Bank.name.toLowerCase(),
+          select: 'name',
+        },
+      ])
+      .exec();
   }
 
   async update(id: string, updateTransactionDto: any): Promise<Transaction> {

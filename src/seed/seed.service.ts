@@ -24,8 +24,8 @@ export class SeedService {
 
       return [banks];
     } catch (error) {
-      const errorMessage = error.errors
-        ?.map((e) => `${e.message} ${e.value}`)
+      const errorMessage = error.writeErrors
+        .map((e) => e.err.errmsg)
         .join(', ');
       throw new HttpException(
         `Error seeding database: ${errorMessage}`,

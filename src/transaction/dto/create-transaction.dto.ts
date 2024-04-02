@@ -5,6 +5,9 @@ import {
   IsBoolean,
   IsOptional,
 } from 'class-validator';
+import { Types } from 'mongoose';
+import { Transform } from 'class-transformer';
+import { validateAndParseToObjectId } from '@common/util/func';
 
 export class CreateTransactionDto {
   @IsNumber()
@@ -15,9 +18,9 @@ export class CreateTransactionDto {
   @IsNotEmpty()
   readonly concept: string;
 
-  @IsString()
   @IsNotEmpty()
-  readonly bank: string;
+  @Transform(validateAndParseToObjectId)
+  readonly bank: Types.ObjectId;
 
   @IsString()
   @IsNotEmpty()

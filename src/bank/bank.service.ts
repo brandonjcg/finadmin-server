@@ -3,11 +3,8 @@ import { CreateBankDto } from './dto';
 import { Bank } from './schemas/bank.schema';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import {
-  PaginationResponse,
-  QueryArgs,
-  buildPaginationResponse,
-} from '../common';
+import { PaginationResponse } from '@common/types/index';
+import { QueryArgs, buildPaginationResponse } from '../common';
 
 @Injectable()
 export class BankService {

@@ -19,5 +19,8 @@ async function bootstrap() {
   await app.listen(PORT);
 
   console.log(`🚀 Server ready at http://localhost:${PORT}`);
+
+  // TODO: implementar borrado lógico
+  // TODO: implementar commit-msg
 }
 bootstrap();

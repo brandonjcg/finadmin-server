@@ -6,17 +6,16 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { TransanctionService } from './transaction.service';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { UpdateTransactionDto } from './dto/update-transaction.dto';
+import { QueryArgs } from '../common';
 
 @Controller('transanction')
 export class TransanctionController {
   constructor(private readonly transanctionService: TransanctionService) {}
-  // TODO: implementar paginado
-  // TODO: implementar borrado lógico
-  // TODO: implementar commit-msg
 
   @Post()
   create(@Body() createTransanctionDto: CreateTransactionDto) {
@@ -24,8 +23,8 @@ export class TransanctionController {
   }
 
   @Get()
-  findAll() {
-    return this.transanctionService.findAll();
+  findAll(@Query() queryArgs: QueryArgs) {
+    return this.transanctionService.findAll(queryArgs);
   }
 
   @Patch(':id')

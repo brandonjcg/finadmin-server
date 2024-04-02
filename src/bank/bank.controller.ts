@@ -1,6 +1,7 @@
-import { Controller, Post, Body, Get } from '@nestjs/common';
+import { Controller, Post, Body, Get, Query } from '@nestjs/common';
 import { BankService } from './bank.service';
 import { CreateBankDto } from './dto';
+import { QueryArgs } from '../common';
 
 @Controller('bank')
 export class BankController {
@@ -12,7 +13,7 @@ export class BankController {
   }
 
   @Get()
-  findAll() {
-    return this.bankService.findAll();
+  findAll(@Query() queryArgs: QueryArgs) {
+    return this.bankService.findAll(queryArgs);
   }
 }

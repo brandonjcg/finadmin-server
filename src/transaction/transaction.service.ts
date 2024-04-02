@@ -2,7 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Transaction } from './schemas/transaction.schema';
 import { Model } from 'mongoose';
-import { Bank } from 'src/bank/schemas/bank.schema';
+import { Bank } from '../bank/schemas/bank.schema';
+import {
+  PaginationResponse,
+  QueryArgs,
+  buildPaginationResponse,
+} from '../common';
 
 @Injectable()
 export class TransanctionService {
@@ -15,16 +20,28 @@ export class TransanctionService {
     return createdTransaction.save();
   }
 
-  async findAll(): Promise<Transaction[]> {
-    return this.transactionModel
-      .find()
-      .populate([
-        {
-          path: Bank.name.toLowerCase(),
-          select: 'name',
-        },
-      ])
-      .exec();
+  async findAll(
+    queryArgs: QueryArgs,
+  ): Promise<PaginationResponse<Transaction>> {
+    const { offset, limit, sort, order } = queryArgs;
+
+    const [total, rows] = await Promise.all([
+      this.transactionModel.countDocuments().exec(),
+      this.transactionModel
+        .find()
+        .skip(offset)
+        .limit(limit)
+        .sort({ [sort]: order })
+        .populate([
+          {
+            path: Bank.name.toLowerCase(),
+            select: 'name',
+          },
+        ])
+        .exec(),
+    ]);
+
+    return buildPaginationResponse(rows, total, queryArgs);
   }
 
   async update(id: string, updateTransactionDto: any): Promise<Transaction> {

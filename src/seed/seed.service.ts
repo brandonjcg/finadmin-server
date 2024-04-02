@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Bank } from 'src/bank/schemas/bank.schema';
+import { Bank } from '../bank/schemas/bank.schema';
 
 @Injectable()
 export class SeedService {

@@ -3,6 +3,11 @@ import { CreateBankDto } from './dto';
 import { Bank } from './schemas/bank.schema';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
+import {
+  PaginationResponse,
+  QueryArgs,
+  buildPaginationResponse,
+} from '../common';
 
 @Injectable()
 export class BankService {
@@ -22,7 +27,19 @@ export class BankService {
     return createdTransaction.save();
   }
 
-  async findAll() {
-    return this.bankModel.find().exec();
+  async findAll(queryArgs: QueryArgs): Promise<PaginationResponse<Bank>> {
+    const { offset, limit, sort, order } = queryArgs;
+
+    const [total, rows] = await Promise.all([
+      this.bankModel.countDocuments().exec(),
+      this.bankModel
+        .find()
+        .skip(offset)
+        .limit(limit)
+        .sort({ [sort]: order })
+        .exec(),
+    ]);
+
+    return buildPaginationResponse(rows, total, queryArgs);
   }
 }

@@ -1,4 +1,10 @@
-import { IsNotEmpty, IsNumber, IsString, IsBoolean } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+  IsBoolean,
+  IsOptional,
+} from 'class-validator';
 
 export class CreateTransactionDto {
   @IsNumber()
@@ -17,6 +23,7 @@ export class CreateTransactionDto {
   @IsNotEmpty()
   readonly store: string;
 
+  @IsOptional()
   @IsString()
   readonly additionalComments: string;
 

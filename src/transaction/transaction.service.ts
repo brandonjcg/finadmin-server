@@ -3,11 +3,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Transaction } from './schemas/transaction.schema';
 import { Model } from 'mongoose';
 import { Bank } from '../bank/schemas/bank.schema';
-import {
-  PaginationResponse,
-  QueryArgs,
-  buildPaginationResponse,
-} from '../common';
+import { PaginationResponse } from '@common/types/index';
+import { QueryArgs, buildPaginationResponse } from '../common';
 
 @Injectable()
 export class TransanctionService {

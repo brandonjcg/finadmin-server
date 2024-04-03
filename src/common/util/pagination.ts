@@ -1,14 +1,5 @@
+import { PaginationResponse } from '@common/types/index';
 import { QueryArgs } from '../dto';
-
-export interface PaginationResponse<T> {
-  rows: T[];
-  total: number;
-  page: number;
-  limit: number;
-  totalPages: number;
-  sort: string;
-  order: string;
-}
 
 export const buildPaginationResponse = <T>(
   rows: T[],

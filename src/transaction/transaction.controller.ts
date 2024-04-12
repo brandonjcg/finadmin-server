@@ -9,10 +9,11 @@ import {
   Query,
 } from '@nestjs/common';
 import { TransanctionService } from './transaction.service';
-import { CreateTransactionDto } from './dto/create-transaction.dto';
-import { UpdateTransactionDto } from './dto/update-transaction.dto';
+import { CreateTransactionDto } from './dto';
 import { QueryArgs } from '../common';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('transanction')
 @Controller('transanction')
 export class TransanctionController {
   constructor(private readonly transanctionService: TransanctionService) {}
@@ -30,7 +31,7 @@ export class TransanctionController {
   @Patch(':id')
   update(
     @Param('id') id: string,
-    @Body() updateTransanctionDto: UpdateTransactionDto,
+    @Body() updateTransanctionDto: CreateTransactionDto,
   ) {
     return this.transanctionService.update(id, updateTransanctionDto);
   }

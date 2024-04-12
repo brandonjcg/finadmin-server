@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe, Logger } from '@nestjs/common';
 import { ResponseInterceptor } from './logging.interceptor';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -15,6 +16,15 @@ async function bootstrap() {
     }),
   );
   app.useGlobalInterceptors(new ResponseInterceptor());
+
+  const config = new DocumentBuilder()
+    .setTitle('FinAdmin server')
+    .setDescription('The API description')
+    .setVersion('1.0')
+    .build();
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, document);
+
   const PORT = process.env.PORT || 3000;
   await app.listen(PORT);
 
@@ -22,7 +32,5 @@ async function bootstrap() {
     `🚀 Application is running on: http://localhost:${PORT}/${globalPrefix}`,
   );
   // TODO: implementar borrado lógico
-  // TODO: implementar commit-msg
-  // TODO: add swagger doc
 }
 bootstrap();

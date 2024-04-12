@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Transaction } from './schemas/transaction.schema';
-import { CreateTransactionDto } from './dto/create-transaction.dto';
+import { CreateTransactionDto } from './dto';
 import { Model } from 'mongoose';
 import { Bank } from '../bank/schemas/bank.schema';
 import { PaginationResponse } from '@common/types/index';

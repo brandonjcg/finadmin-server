@@ -2,7 +2,9 @@ import { Controller, Post, Body, Get, Query } from '@nestjs/common';
 import { BankService } from './bank.service';
 import { CreateBankDto } from './dto';
 import { QueryArgs } from '../common';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('bank')
 @Controller('bank')
 export class BankController {
   constructor(private readonly bankService: BankService) {}

@@ -23,5 +23,6 @@ async function bootstrap() {
   );
   // TODO: implementar borrado lógico
   // TODO: implementar commit-msg
+  // TODO: add swagger doc
 }
 bootstrap();

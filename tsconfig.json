@@ -22,5 +22,11 @@
       "@common/*": ["src/common/*"]
     }
   },
-  "include": ["src/**/*", "package.json", "tsconfig.json", "test/**/*"]
+  "include": [
+    "src/**/*",
+    "package.json",
+    "tsconfig.json",
+    "test/**/*",
+    "commitlint.config.ts"
+  ]
 }

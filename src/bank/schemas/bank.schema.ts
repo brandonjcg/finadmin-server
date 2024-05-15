@@ -8,6 +8,9 @@ export class Bank extends Document {
 
   @Prop({ required: true, type: Boolean, default: true })
   active: boolean;
+
+  @Prop({ required: false, type: String })
+  logo: string;
 }
 
 export const BankSchema = SchemaFactory.createForClass(Bank);

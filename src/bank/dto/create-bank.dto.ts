@@ -6,4 +6,8 @@ export class CreateBankDto {
   @ApiProperty()
   @IsNotEmpty()
   readonly name: string;
+
+  @IsString()
+  @ApiProperty()
+  readonly logo: string;
 }

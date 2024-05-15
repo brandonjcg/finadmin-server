@@ -8,36 +8,36 @@ import {
   Delete,
   Query,
 } from '@nestjs/common';
-import { TransanctionService } from './transaction.service';
+import { TransactionService } from './transaction.service';
 import { CreateTransactionDto } from './dto';
 import { QueryArgs } from '../common';
 import { ApiTags } from '@nestjs/swagger';
 
-@ApiTags('transanction')
-@Controller('transanction')
-export class TransanctionController {
-  constructor(private readonly transanctionService: TransanctionService) {}
+@ApiTags('transaction')
+@Controller('transaction')
+export class TransactionController {
+  constructor(private readonly transactionService: TransactionService) {}
 
   @Post()
-  create(@Body() createTransanctionDto: CreateTransactionDto) {
-    return this.transanctionService.create(createTransanctionDto);
+  create(@Body() createTransactionDto: CreateTransactionDto) {
+    return this.transactionService.create(createTransactionDto);
   }
 
   @Get()
   findAll(@Query() queryArgs: QueryArgs) {
-    return this.transanctionService.findAll(queryArgs);
+    return this.transactionService.findAll(queryArgs);
   }
 
   @Patch(':id')
   update(
     @Param('id') id: string,
-    @Body() updateTransanctionDto: CreateTransactionDto,
+    @Body() updateTransactionDto: CreateTransactionDto,
   ) {
-    return this.transanctionService.update(id, updateTransanctionDto);
+    return this.transactionService.update(id, updateTransactionDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.transanctionService.remove(id);
+    return this.transactionService.remove(id);
   }
 }

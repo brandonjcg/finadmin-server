@@ -8,7 +8,7 @@ import { PaginationResponse } from '@common/types/index';
 import { QueryArgs, buildPaginationResponse } from '../common';
 
 @Injectable()
-export class TransanctionService {
+export class TransactionService {
   constructor(
     @InjectModel(Transaction.name) private transactionModel: Model<Transaction>,
   ) {}

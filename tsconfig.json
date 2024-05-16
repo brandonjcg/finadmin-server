@@ -27,6 +27,7 @@
     "package.json",
     "tsconfig.json",
     "test/**/*",
-    "commitlint.config.ts"
+    "commitlint.config.ts",
+    ".eslintrc.js"
   ]
 }

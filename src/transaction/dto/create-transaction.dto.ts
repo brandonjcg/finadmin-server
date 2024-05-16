@@ -31,10 +31,14 @@ export class CreateTransactionDto {
   @ApiProperty()
   readonly store: string;
 
+  @IsString()
+  @ApiProperty()
+  readonly date: Date;
+
   @IsOptional()
   @IsString()
   @ApiProperty()
-  readonly additionalComments: string;
+  readonly additionalComments?: string;
 
   @IsBoolean()
   @ApiProperty()

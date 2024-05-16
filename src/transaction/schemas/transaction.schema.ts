@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose from 'mongoose';
 import { Bank } from '../../bank/schemas/bank.schema';
+import { Types } from 'mongoose';
 
 @Schema({ timestamps: true })
 export class Transaction {
@@ -11,10 +11,10 @@ export class Transaction {
   concept: string;
 
   @Prop({
-    type: mongoose.Schema.Types.ObjectId,
+    type: Types.ObjectId,
     ref: () => Bank,
   })
-  bank: Bank;
+  bank: Types.ObjectId;
 
   @Prop({ required: true, type: String })
   store: string;
@@ -22,8 +22,8 @@ export class Transaction {
   @Prop({ default: Date.now, required: false, type: Date })
   date: Date;
 
-  @Prop({ default: '', type: String })
-  additionalComments: string;
+  @Prop({ default: '', type: String, required: false })
+  additionalComments?: string;
 
   @Prop({ default: false, type: Boolean })
   isReserved: boolean;

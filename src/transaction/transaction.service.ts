@@ -35,7 +35,7 @@ export class TransactionService {
         .populate([
           {
             path: Bank.name.toLowerCase(),
-            select: 'name',
+            select: 'name logo',
           },
         ])
         .exec(),

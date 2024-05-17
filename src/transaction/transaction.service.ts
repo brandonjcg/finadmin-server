@@ -53,4 +53,17 @@ export class TransactionService {
   async remove(id: string): Promise<Transaction> {
     return this.transactionModel.findByIdAndDelete(id).exec();
   }
+
+  async selectStore(): Promise<string[]> {
+    const stores = await this.transactionModel.aggregate([
+      {
+        $group: {
+          _id: '$_id',
+          text: { $first: '$store' },
+        },
+      },
+    ]);
+
+    return stores;
+  }
 }

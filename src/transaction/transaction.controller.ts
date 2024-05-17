@@ -40,4 +40,9 @@ export class TransactionController {
   remove(@Param('id') id: string) {
     return this.transactionService.remove(id);
   }
+
+  @Get('store/select')
+  async selectStore() {
+    return this.transactionService.selectStore();
+  }
 }

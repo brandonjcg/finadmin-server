@@ -58,8 +58,18 @@ export class TransactionService {
     const stores = await this.transactionModel.aggregate([
       {
         $group: {
-          _id: '$_id',
-          text: { $first: '$store' },
+          _id: '$store',
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          text: '$_id',
+        },
+      },
+      {
+        $sort: {
+          text: 1,
         },
       },
     ]);

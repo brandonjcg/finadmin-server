@@ -4,7 +4,11 @@ import { Bank } from './schemas/bank.schema';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { PaginationResponse } from '@common/types/index';
-import { QueryArgs, buildPaginationResponse } from '../common';
+import {
+  QueryArgs,
+  buildPaginationResponse,
+  getOffsetAndLimit,
+} from '../common';
 
 @Injectable()
 export class BankService {
@@ -25,13 +29,14 @@ export class BankService {
   }
 
   async findAll(queryArgs: QueryArgs): Promise<PaginationResponse<Bank>> {
-    const { offset, limit, sort, order } = queryArgs;
+    const { offset, limit, sort, order } = getOffsetAndLimit(queryArgs);
 
     const [total, rows] = await Promise.all([
       this.bankModel.countDocuments().exec(),
       this.bankModel
         .find()
         .skip(offset)
+        .limit(limit)
         .limit(limit)
         .sort({ [sort]: order })
         .exec(),

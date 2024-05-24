@@ -5,7 +5,11 @@ import { CreateTransactionDto } from './dto';
 import { Model } from 'mongoose';
 import { Bank } from '../bank/schemas/bank.schema';
 import { PaginationResponse } from '@common/types/index';
-import { QueryArgs, buildPaginationResponse } from '../common';
+import {
+  QueryArgs,
+  buildPaginationResponse,
+  getOffsetAndLimit,
+} from '../common';
 
 @Injectable()
 export class TransactionService {
@@ -23,7 +27,7 @@ export class TransactionService {
   async findAll(
     queryArgs: QueryArgs,
   ): Promise<PaginationResponse<Transaction>> {
-    const { offset, limit, sort, order } = queryArgs;
+    const { offset, limit, sort, order } = getOffsetAndLimit(queryArgs);
 
     const [total, rows] = await Promise.all([
       this.transactionModel.countDocuments().exec(),

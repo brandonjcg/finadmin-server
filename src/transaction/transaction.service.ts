@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Transaction } from './schemas/transaction.schema';
-import { CreateTransactionDto } from './dto';
 import { Model } from 'mongoose';
-import { Bank } from '../bank/schemas/bank.schema';
-import { PaginationResponse } from '@common/types/index';
+import { Transaction } from './schemas';
+import { Bank } from '../bank';
+import { CreateTransactionDto, SelectStoreDto } from './dto';
 import {
+  PaginationResponse,
   QueryArgs,
   buildPaginationResponse,
   getOffsetAndLimit,
@@ -58,7 +58,7 @@ export class TransactionService {
     return this.transactionModel.findByIdAndDelete(id).exec();
   }
 
-  async selectStore(): Promise<string[]> {
+  async selectStore(): Promise<PaginationResponse<SelectStoreDto>> {
     const stores = await this.transactionModel.aggregate([
       {
         $group: {
@@ -78,7 +78,7 @@ export class TransactionService {
       },
     ]);
 
-    return stores;
+    return buildPaginationResponse(stores);
   }
 
   async findOne(id: string): Promise<PaginationResponse<Transaction>> {

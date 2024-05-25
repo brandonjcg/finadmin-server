@@ -4,6 +4,7 @@ import { BankService } from './bank.service';
 import { CreateBankDto } from './dto';
 import { QueryArgs } from '../common';
 import { Bank } from './schemas';
+import { PaginationResponse } from '@/common';
 
 @ApiTags('bank')
 @Controller('bank')
@@ -21,7 +22,7 @@ export class BankController {
   }
 
   @Get('/select')
-  async select(): Promise<Bank[]> {
+  async select(): Promise<PaginationResponse<Bank>> {
     return this.bankService.select();
   }
 }

@@ -7,18 +7,18 @@ interface QueryArgsComplete extends QueryArgs {
 
 export const buildPaginationResponse = <T>(
   rows: T[],
-  total: number,
-  args: QueryArgs,
+  total?: number,
+  args?: QueryArgs,
 ): PaginationResponse<T> => {
-  const limit = args.limit || 10;
+  const limit = args?.limit ?? 10;
 
   return {
-    page: args.page || 0,
+    page: args?.page || 0,
     limit,
-    total,
-    totalPages: Math.ceil(total / limit),
-    sort: args.sort || 'createdAt',
-    order: args.order === 1 ? 'ASC' : 'DESC',
+    total: total || 1,
+    totalPages: Math.ceil(total / limit) || 1,
+    sort: args?.sort || 'createdAt',
+    order: args?.order === 1 ? 'ASC' : 'DESC',
     rows,
   };
 };

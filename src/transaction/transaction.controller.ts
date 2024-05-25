@@ -50,4 +50,13 @@ export class TransactionController {
   async selectStore() {
     return this.transactionService.selectStore();
   }
+
+  @Get(':id')
+  @ApiOkResponse({
+    type: Transaction,
+    description: 'Transaction by id',
+  })
+  findOne(@Param('id') id: string) {
+    return this.transactionService.findOne(id);
+  }
 }

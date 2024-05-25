@@ -80,4 +80,10 @@ export class TransactionService {
 
     return stores;
   }
+
+  async findOne(id: string): Promise<PaginationResponse<Transaction>> {
+    const row = await this.transactionModel.findById(id).exec();
+
+    return buildPaginationResponse([row]);
+  }
 }

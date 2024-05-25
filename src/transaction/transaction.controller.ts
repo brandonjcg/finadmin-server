@@ -7,12 +7,21 @@ import {
   Param,
   Delete,
   Query,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
 import { TransactionService } from './transaction.service';
-import { CreateTransactionDto } from './dto';
+import { CreateTransactionDto, FileUploadDto } from './dto';
 import { QueryArgs } from '../common';
-import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBody,
+  ApiConsumes,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
 import { Transaction } from './schemas';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @ApiTags('transaction')
 @Controller('transaction')
@@ -58,5 +67,21 @@ export class TransactionController {
   })
   findOne(@Param('id') id: string) {
     return this.transactionService.findOne(id);
+  }
+
+  @Post('import')
+  @UseInterceptors(FileInterceptor('file'))
+  @ApiOperation({ summary: 'Import transactions' })
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    description: 'Csv file',
+    type: FileUploadDto,
+  })
+  async import(@UploadedFile() file: Express.Multer.File): Promise<object> {
+    const data = await this.transactionService.import(file);
+    return {
+      message: 'Transactions imported successfully',
+      data,
+    };
   }
 }

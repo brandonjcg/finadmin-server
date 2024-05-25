@@ -7,3 +7,8 @@ export interface PaginationResponse<T> {
   sort: string;
   order: string;
 }
+
+export interface CsvData {
+  headers: string[];
+  csvParsed: string[][];
+}

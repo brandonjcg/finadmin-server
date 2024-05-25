@@ -45,7 +45,13 @@ export class BankService {
     return buildPaginationResponse(rows, total, queryArgs);
   }
 
-  async select(): Promise<PaginationResponse<Bank>> {
+  async select(): Promise<
+    {
+      _id: string;
+      text: string;
+      logo: string;
+    }[]
+  > {
     const rows = await this.bankModel.aggregate([
       {
         $project: {
@@ -55,6 +61,6 @@ export class BankService {
       },
     ]);
 
-    return buildPaginationResponse(rows);
+    return rows;
   }
 }

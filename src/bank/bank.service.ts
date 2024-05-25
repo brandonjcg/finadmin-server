@@ -50,7 +50,7 @@ export class BankService {
       {
         $project: {
           text: '$name',
-          bankLogo: '$logo',
+          logo: '$logo',
         },
       },
     ]);

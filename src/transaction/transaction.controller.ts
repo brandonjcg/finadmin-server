@@ -11,7 +11,8 @@ import {
 import { TransactionService } from './transaction.service';
 import { CreateTransactionDto } from './dto';
 import { QueryArgs } from '../common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { Transaction } from './schemas';
 
 @ApiTags('transaction')
 @Controller('transaction')
@@ -24,6 +25,10 @@ export class TransactionController {
   }
 
   @Get()
+  @ApiOkResponse({
+    type: [Transaction],
+    description: 'All transactions',
+  })
   findAll(@Query() queryArgs: QueryArgs) {
     return this.transactionService.findAll(queryArgs);
   }
@@ -44,5 +49,14 @@ export class TransactionController {
   @Get('store/select')
   async selectStore() {
     return this.transactionService.selectStore();
+  }
+
+  @Get(':id')
+  @ApiOkResponse({
+    type: Transaction,
+    description: 'Transaction by id',
+  })
+  findOne(@Param('id') id: string) {
+    return this.transactionService.findOne(id);
   }
 }

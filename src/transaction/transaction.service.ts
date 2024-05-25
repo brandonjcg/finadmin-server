@@ -1,11 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Transaction } from './schemas/transaction.schema';
-import { CreateTransactionDto } from './dto';
 import { Model } from 'mongoose';
-import { Bank } from '../bank/schemas/bank.schema';
-import { PaginationResponse } from '@common/types/index';
-import { QueryArgs, buildPaginationResponse } from '../common';
+import { Transaction } from './schemas';
+import { Bank } from '../bank';
+import { CreateTransactionDto, SelectStoreDto } from './dto';
+import {
+  PaginationResponse,
+  QueryArgs,
+  buildPaginationResponse,
+  getOffsetAndLimit,
+} from '../common';
 
 @Injectable()
 export class TransactionService {
@@ -23,7 +27,7 @@ export class TransactionService {
   async findAll(
     queryArgs: QueryArgs,
   ): Promise<PaginationResponse<Transaction>> {
-    const { offset, limit, sort, order } = queryArgs;
+    const { offset, limit, sort, order } = getOffsetAndLimit(queryArgs);
 
     const [total, rows] = await Promise.all([
       this.transactionModel.countDocuments().exec(),
@@ -54,7 +58,7 @@ export class TransactionService {
     return this.transactionModel.findByIdAndDelete(id).exec();
   }
 
-  async selectStore(): Promise<string[]> {
+  async selectStore(): Promise<PaginationResponse<SelectStoreDto>> {
     const stores = await this.transactionModel.aggregate([
       {
         $group: {
@@ -74,6 +78,12 @@ export class TransactionService {
       },
     ]);
 
-    return stores;
+    return buildPaginationResponse(stores);
+  }
+
+  async findOne(id: string): Promise<PaginationResponse<Transaction>> {
+    const row = await this.transactionModel.findById(id).exec();
+
+    return buildPaginationResponse([row]);
   }
 }

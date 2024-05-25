@@ -1,4 +1,5 @@
 import { Transform } from 'class-transformer';
+import { ApiPropertyOptional } from '@nestjs/swagger';
 import {
   IsNotEmpty,
   IsNumber,
@@ -13,17 +14,20 @@ export class QueryArgs {
   @IsNumber()
   @Min(0)
   @Transform(({ value }) => Number(value))
-  offset?: number = 0;
+  @ApiPropertyOptional()
+  page?: number = 0;
 
   @IsOptional()
   @IsNumber()
   @Min(1)
   @Transform(({ value }) => Number(value))
+  @ApiPropertyOptional()
   limit?: number = 10;
 
   @IsOptional()
   @IsNotEmpty()
   @IsString()
+  @ApiPropertyOptional()
   sort?: string = 'createdAt';
 
   @IsOptional()
@@ -31,5 +35,6 @@ export class QueryArgs {
   @Transform(({ value }) => Number(value))
   @Min(-1)
   @Max(1)
+  @ApiPropertyOptional()
   order?: 1 | -1 = -1;
 }

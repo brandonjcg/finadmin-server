@@ -79,6 +79,7 @@ export class TransactionController {
   })
   async import(@UploadedFile() file: Express.Multer.File): Promise<object> {
     const data = await this.transactionService.import(file);
+
     return {
       message: 'Transactions imported successfully',
       data,

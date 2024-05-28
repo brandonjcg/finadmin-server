@@ -9,13 +9,14 @@ import {
 } from '@nestjs/common';
 import type { Request } from 'express';
 import { Observable, catchError, map, throwError } from 'rxjs';
+import { TODO } from './common';
 
 interface IGenericResponse {
   error: boolean;
   statusCode: number;
   path: string;
   message: string;
-  data: object | object[];
+  [key: string]: TODO;
 }
 
 @Injectable()
@@ -24,7 +25,7 @@ export class ResponseInterceptor implements NestInterceptor {
     timestamp: true,
   });
 
-  intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+  intercept(context: ExecutionContext, next: CallHandler): Observable<TODO> {
     return next.handle().pipe(
       map((res: Response) => this.responseHandler(res, context)),
       catchError((err) => throwError(() => this.errorHandler(err, context))),
@@ -51,8 +52,7 @@ export class ResponseInterceptor implements NestInterceptor {
     const statusCode =
       exception instanceof HttpException
         ? exception.getStatus()
-        : HttpStatus.INTERNAL_SERVER_ERROR;
-
+        : HttpStatus.BAD_REQUEST;
     const errorMessage =
       exception instanceof HttpException
         ? exception.getResponse()['message']
@@ -82,7 +82,8 @@ export class ResponseInterceptor implements NestInterceptor {
       statusCode,
       path: request.url,
       message: '',
-      data: res ?? {},
+      data: {},
+      ...res,
     };
   }
 }

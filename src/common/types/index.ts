@@ -1,3 +1,5 @@
+export type TODO = any;
+
 export interface PaginationResponse<T> {
   rows: T[];
   total: number;

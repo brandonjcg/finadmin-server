@@ -10,6 +10,6 @@ import { Bank, BankSchema } from './schemas/bank.schema';
   imports: [
     MongooseModule.forFeature([{ name: Bank.name, schema: BankSchema }]),
   ],
-  exports: [MongooseModule],
+  exports: [MongooseModule, BankService],
 })
 export class BankModule {}

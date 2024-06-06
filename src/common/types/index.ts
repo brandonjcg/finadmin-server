@@ -1,3 +1,5 @@
+export type TODO = any;
+
 export interface PaginationResponse<T> {
   rows: T[];
   total: number;
@@ -6,4 +8,17 @@ export interface PaginationResponse<T> {
   totalPages: number;
   sort: string;
   order: string;
+}
+
+export interface CsvData {
+  headers: string[];
+  csvParsed: string[][];
+}
+
+export interface IGenericResponse {
+  error: boolean;
+  statusCode: number;
+  path: string;
+  message: string;
+  [key: string]: TODO;
 }

@@ -62,8 +62,8 @@ export class TransactionService {
     return this.transactionModel.findByIdAndDelete(id).exec();
   }
 
-  async selectStore(): Promise<PaginationResponse<SelectStoreDto>> {
-    const stores = await this.transactionModel.aggregate([
+  async selectStore(): Promise<SelectStoreDto[]> {
+    return await this.transactionModel.aggregate([
       {
         $group: {
           _id: '$store',
@@ -81,14 +81,10 @@ export class TransactionService {
         },
       },
     ]);
-
-    return buildPaginationResponse(stores);
   }
 
-  async findOne(id: string): Promise<PaginationResponse<Transaction>> {
-    const row = await this.transactionModel.findById(id).exec();
-
-    return buildPaginationResponse([row]);
+  async findOne(id: string): Promise<Transaction> {
+    return await this.transactionModel.findById(id).exec();
   }
 
   async import(file: Express.Multer.File) {

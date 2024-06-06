@@ -15,12 +15,20 @@ export class BankController {
   }
 
   @Get()
-  findAll(@Query() queryArgs: QueryArgs) {
-    return this.bankService.findAll(queryArgs);
+  async findAll(@Query() queryArgs: QueryArgs) {
+    const data = await this.bankService.findAll(queryArgs);
+
+    return {
+      data: data.rows,
+    };
   }
 
   @Get('/select')
   async select() {
-    return this.bankService.select();
+    const rows = await this.bankService.select();
+
+    return {
+      data: rows,
+    };
   }
 }

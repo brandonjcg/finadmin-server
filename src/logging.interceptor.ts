@@ -9,15 +9,7 @@ import {
 } from '@nestjs/common';
 import type { Request } from 'express';
 import { Observable, catchError, map, throwError } from 'rxjs';
-import { TODO } from './common';
-
-interface IGenericResponse {
-  error: boolean;
-  statusCode: number;
-  path: string;
-  message: string;
-  [key: string]: TODO;
-}
+import { IGenericResponse, TODO } from './common';
 
 @Injectable()
 export class ResponseInterceptor implements NestInterceptor {

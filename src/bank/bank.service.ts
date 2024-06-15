@@ -38,7 +38,7 @@ export class BankService {
         .skip(offset)
         .limit(limit)
         .limit(limit)
-        .sort({ [sort]: order })
+        .sort({ [sort]: order === 'asc' ? 1 : -1 })
         .exec(),
     ]);
 

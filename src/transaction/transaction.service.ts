@@ -11,6 +11,7 @@ import {
   getOffsetAndLimit,
 } from '../common';
 import { buildCsv } from '@/common';
+import { ITransactionCsv } from './types';
 
 @Injectable()
 export class TransactionService {
@@ -34,12 +35,20 @@ export class TransactionService {
     const { offset, limit, sort, order } = getOffsetAndLimit(queryArgs);
 
     const [total, rows] = await Promise.all([
-      this.transactionModel.countDocuments().exec(),
       this.transactionModel
-        .find()
+        .countDocuments({
+          isPaid: false,
+        })
+        .exec(),
+      this.transactionModel
+        .find({
+          isPaid: false,
+        })
         .skip(offset)
         .limit(limit)
-        .sort({ [sort]: order })
+        .sort({
+          [sort]: order === 'asc' ? 1 : -1,
+        })
         .populate([
           {
             path: Bank.name.toLowerCase(),
@@ -90,16 +99,8 @@ export class TransactionService {
   async import(file: Express.Multer.File) {
     if (!file) throw new HttpException('Empty file', HttpStatus.CONFLICT);
 
-    const csvParsed = buildCsv(file?.buffer).csvParsed as unknown as {
-      bank: string;
-      concept: string;
-      amount: string;
-      date: string;
-      store: string;
-      isReserved: string;
-      isPaid: string;
-      additionalComments: string;
-    }[];
+    const csvParsed = buildCsv(file?.buffer)
+      .csvParsed as unknown as ITransactionCsv[];
 
     const banksObjects = await this.bankService.select();
 

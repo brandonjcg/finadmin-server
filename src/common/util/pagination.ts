@@ -12,13 +12,15 @@ export const buildPaginationResponse = <T>(
 ): PaginationResponse<T> => {
   const limit = args?.limit ?? 10;
 
+  const { sort, order } = getSortFieldAndOrder(args?.sort, args?.order);
+
   return {
     page: args?.page || 0,
     limit,
     total: total || 1,
     totalPages: Math.ceil(total / limit) || 1,
-    sort: args?.sort || 'createdAt',
-    order: args?.order === 1 ? 'ASC' : 'DESC',
+    sort,
+    order,
     rows,
   };
 };
@@ -32,5 +34,14 @@ export const getOffsetAndLimit = (queryArgs: QueryArgs): QueryArgsComplete => {
     offset: offset < 0 ? 0 : offset,
     limit,
     ...queryArgs,
+  };
+};
+
+export const getSortFieldAndOrder = (sort: string, order: string) => {
+  const orderValue = order === 'asc' ? 1 : -1;
+
+  return {
+    sort,
+    order: orderValue,
   };
 };

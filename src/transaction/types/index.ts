@@ -6,8 +6,8 @@ export interface PaginationResponse<T> {
   page: number;
   limit: number;
   totalPages: number;
-  sort: string | string[];
-  order: number;
+  sort: string;
+  order: string;
 }
 
 export interface CsvData {
@@ -21,4 +21,15 @@ export interface IGenericResponse {
   path: string;
   message: string;
   [key: string]: TODO;
+}
+
+export interface ITransactionCsv {
+  bank: string;
+  concept: string;
+  amount: number;
+  date: string;
+  store: string;
+  isReserved: string;
+  isPaid: string;
+  additionalComments: string;
 }

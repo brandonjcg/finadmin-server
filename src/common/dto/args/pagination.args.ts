@@ -5,7 +5,6 @@ import {
   IsNumber,
   IsOptional,
   IsString,
-  Max,
   Min,
 } from 'class-validator';
 
@@ -31,10 +30,6 @@ export class QueryArgs {
   sort?: string = 'createdAt';
 
   @IsOptional()
-  @IsNumber()
-  @Transform(({ value }) => Number(value))
-  @Min(-1)
-  @Max(1)
   @ApiPropertyOptional()
-  order?: 1 | -1 = -1;
+  order?: string;
 }

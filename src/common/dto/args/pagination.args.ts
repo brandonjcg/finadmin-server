@@ -7,6 +7,7 @@ import {
   IsString,
   Min,
 } from 'class-validator';
+import { TODO } from '@/common';
 
 export class QueryArgs {
   @IsOptional()
@@ -32,4 +33,8 @@ export class QueryArgs {
   @IsOptional()
   @ApiPropertyOptional()
   order?: string;
+
+  @IsOptional()
+  @ApiPropertyOptional()
+  filters?: Record<string, TODO> = {};
 }

@@ -8,6 +8,7 @@ import {
   PaginationResponse,
   QueryArgs,
   buildPaginationResponse,
+  createFilter,
   getOffsetAndLimit,
 } from '../common';
 import { buildCsv } from '@/common';
@@ -33,17 +34,12 @@ export class TransactionService {
     queryArgs: QueryArgs,
   ): Promise<PaginationResponse<Transaction>> {
     const { offset, limit, sort, order } = getOffsetAndLimit(queryArgs);
+    const where = createFilter(queryArgs.filters);
 
     const [total, rows] = await Promise.all([
+      this.transactionModel.countDocuments(where).exec(),
       this.transactionModel
-        .countDocuments({
-          isPaid: false,
-        })
-        .exec(),
-      this.transactionModel
-        .find({
-          isPaid: false,
-        })
+        .find(where)
         .skip(offset)
         .limit(limit)
         .sort({

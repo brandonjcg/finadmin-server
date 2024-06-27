@@ -22,6 +22,7 @@ import {
 } from '@nestjs/swagger';
 import { Transaction } from './schemas';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { BanksIdsDto } from '@/bank';
 
 @ApiTags('transaction')
 @Controller('transaction')
@@ -83,6 +84,19 @@ export class TransactionController {
 
     return {
       data,
+    };
+  }
+
+  @Get('/bank/group')
+  @ApiOkResponse({
+    type: BanksIdsDto,
+    description: 'Filter transactions by bank and return grouped total',
+  })
+  async group(@Query() query: BanksIdsDto) {
+    const rows = await this.transactionService.group(query);
+
+    return {
+      data: rows,
     };
   }
 

@@ -63,4 +63,17 @@ export class BankService {
 
     return rows;
   }
+
+  async getBanksNotFound(ids: string[]) {
+    const rows = await this.bankModel.find({
+      _id: {
+        $in: ids,
+      },
+    });
+
+    const idsDatabase = rows.map((row) => row._id.toString());
+    const rowsNotExists = ids.filter((id) => !idsDatabase.includes(id));
+
+    return rowsNotExists;
+  }
 }

@@ -1,8 +1,8 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { Transaction } from './schemas';
-import { Bank, BankService } from '../bank';
+import { Bank, BankService, BanksIdsDto } from '../bank';
 import { CreateTransactionDto, SelectStoreDto } from './dto';
 import {
   PaginationResponse,
@@ -130,5 +130,38 @@ export class TransactionService {
     });
 
     return await this.transactionModel.insertMany(dataPrepared);
+  }
+
+  async group(query: BanksIdsDto) {
+    const { ids } = query;
+    const rowsNotExists = await this.bankService.getBanksNotFound(ids);
+    if (rowsNotExists.length)
+      throw new HttpException(
+        `Banks not found: ${rowsNotExists.join(', ')}`,
+        HttpStatus.BAD_REQUEST,
+      );
+
+    const { isPaid, isReserved } = query;
+    const rows = await this.transactionModel.aggregate([
+      {
+        $match: {
+          bank: {
+            $in: ids.map((id) => new Types.ObjectId(id)),
+          },
+          ...(isPaid !== undefined && { isPaid }),
+          ...(isReserved !== undefined && { isReserved }),
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          total: {
+            $sum: '$amount',
+          },
+        },
+      },
+    ]);
+
+    return rows.length ? rows[0] : { total: 0 };
   }
 }

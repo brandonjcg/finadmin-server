@@ -10,26 +10,38 @@ import {
   UseInterceptors,
   UploadedFile,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { TransactionService } from './transaction.service';
-import { CreateTransactionDto, FileUploadDto, SelectStoreDto } from './dto';
-import { QueryArgs } from '../common';
 import {
-  ApiBody,
+  CreateTransactionDto,
+  FileUploadDto,
+  GroupByBanksDto,
+  SelectStoreDto,
+} from './dto';
+import { QueryArgs, GenericResponse } from '../common';
+import {
   ApiConsumes,
-  ApiOkResponse,
   ApiOperation,
+  ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
 import { Transaction } from './schemas';
-import { FileInterceptor } from '@nestjs/platform-express';
 import { BanksIdsDto } from '@/bank';
 
-@ApiTags('transaction')
-@Controller('transaction')
+const MODULE_NAME = 'transaction';
+
+@ApiTags(MODULE_NAME)
+@Controller(MODULE_NAME)
 export class TransactionController {
   constructor(private readonly transactionService: TransactionService) {}
 
   @Post()
+  @ApiResponse({
+    type: GenericResponse(CreateTransactionDto, {
+      description: 'Transaction created successfully',
+      url: MODULE_NAME,
+    }),
+  })
   async create(@Body() createTransactionDto: CreateTransactionDto) {
     const data = await this.transactionService.create(createTransactionDto);
 
@@ -40,9 +52,11 @@ export class TransactionController {
   }
 
   @Get()
-  @ApiOkResponse({
-    type: [Transaction],
-    description: 'All transactions',
+  @ApiResponse({
+    type: GenericResponse(Transaction, {
+      isArray: true,
+      url: MODULE_NAME,
+    }),
   })
   async findAll(@Query() queryArgs: QueryArgs) {
     const { rows, ...rest } = await this.transactionService.findAll(queryArgs);
@@ -53,6 +67,12 @@ export class TransactionController {
   }
 
   @Patch(':id')
+  @ApiResponse({
+    type: GenericResponse(CreateTransactionDto, {
+      description: 'Transaction updated successfully',
+      url: MODULE_NAME,
+    }),
+  })
   async update(
     @Param('id') id: string,
     @Body() updateTransactionDto: CreateTransactionDto,
@@ -66,18 +86,28 @@ export class TransactionController {
   }
 
   @Delete(':id')
+  @ApiResponse({
+    type: GenericResponse(Transaction, {
+      description: 'Transaction deleted successfully',
+      url: MODULE_NAME,
+    }),
+  })
   async remove(@Param('id') id: string) {
-    await this.transactionService.remove(id);
+    const row = await this.transactionService.remove(id);
 
     return {
+      data: row,
       message: 'Transaction deleted successfully',
     };
   }
 
   @Get('store/select')
-  @ApiOkResponse({
-    type: [SelectStoreDto],
-    description: 'All stores',
+  @ApiResponse({
+    type: GenericResponse(SelectStoreDto, {
+      isArray: true,
+      description: 'All stores',
+      url: 'store/select',
+    }),
   })
   async selectStore() {
     const data = await this.transactionService.selectStore();
@@ -87,10 +117,13 @@ export class TransactionController {
     };
   }
 
-  @Get('/bank/group')
-  @ApiOkResponse({
-    type: BanksIdsDto,
-    description: 'Filter transactions by bank and return grouped total',
+  @Get('bank/group')
+  @ApiResponse({
+    type: GenericResponse(GroupByBanksDto, {
+      isArray: true,
+      description: 'Filter transactions by bank and return grouped total',
+      url: 'bank/group',
+    }),
   })
   async group(@Query() query: BanksIdsDto) {
     const rows = await this.transactionService.group(query);
@@ -101,9 +134,11 @@ export class TransactionController {
   }
 
   @Get(':id')
-  @ApiOkResponse({
-    type: Transaction,
-    description: 'Transaction by id',
+  @ApiResponse({
+    type: GenericResponse(Transaction, {
+      description: 'Transaction by id',
+      url: `${MODULE_NAME}/:id`,
+    }),
   })
   async findOne(@Param('id') id: string) {
     const data = await this.transactionService.findOne(id);
@@ -117,9 +152,11 @@ export class TransactionController {
   @UseInterceptors(FileInterceptor('file'))
   @ApiOperation({ summary: 'Import transactions' })
   @ApiConsumes('multipart/form-data')
-  @ApiBody({
-    description: 'Csv file',
-    type: FileUploadDto,
+  @ApiResponse({
+    type: GenericResponse(FileUploadDto, {
+      description: 'Import transactions from csv file',
+      url: `${MODULE_NAME}/import`,
+    }),
   })
   async import(@UploadedFile() file: Express.Multer.File): Promise<object> {
     const data = await this.transactionService.import(file);

@@ -5,10 +5,10 @@ import {
   IsBoolean,
   IsOptional,
 } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 import { Types } from 'mongoose';
 import { Transform } from 'class-transformer';
-import { validateAndParseToObjectId } from '@common/util/func';
-import { ApiProperty } from '@nestjs/swagger';
+import { validateAndParseToObjectId } from '@/common';
 
 export class CreateTransactionDto {
   @IsNumber()
@@ -23,7 +23,7 @@ export class CreateTransactionDto {
 
   @IsNotEmpty()
   @Transform(validateAndParseToObjectId)
-  @ApiProperty({ type: String })
+  @ApiProperty({ type: String, pattern: '^[0-9a-fA-F]{24}$' })
   readonly bank: Types.ObjectId;
 
   @IsString()

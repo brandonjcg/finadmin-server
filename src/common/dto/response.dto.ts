@@ -1,7 +1,7 @@
 import { mixin } from '@nestjs/common';
 import { ApiProperty, ApiPropertyOptions } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsNumber, ValidateNested } from 'class-validator';
+import { IsBoolean, IsNumber, ValidateNested } from 'class-validator';
 
 type Constructor<T = object> = new (...args) => T;
 
@@ -20,18 +20,17 @@ export const GenericResponse = <TBase extends Constructor>(
     description = '',
     url = 'row',
     statusCode = 200,
-  } = options;
+  } = options || {};
   class ResponseDTO {
     @ApiProperty({
       example: error,
     })
-    @IsNumber()
-    error: number;
+    @IsBoolean()
+    error: boolean;
 
     @ApiProperty({
       example: statusCode,
     })
-    @IsNumber()
     statusCode: number;
 
     @ApiProperty({
@@ -50,7 +49,7 @@ export const GenericResponse = <TBase extends Constructor>(
       ...options,
     })
     @Type(() => Base)
-    @ValidateNested({ each: true })
+    @ValidateNested({ each: isArray })
     data: Array<InstanceType<TBase>>;
   }
   return mixin(ResponseDTO);

@@ -19,7 +19,7 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('FinAdmin server')
-    .setDescription('The API description')
+    .setDescription('The FinAdmin API description')
     .setVersion('1.0')
     .build();
   const document = SwaggerModule.createDocument(app, config);

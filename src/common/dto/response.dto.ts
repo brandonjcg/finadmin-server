@@ -55,3 +55,48 @@ export const GenericResponse = <TBase extends Constructor>(
   }
   return mixin(ResponseDTO);
 };
+
+export const GenericEmptyResponse = (options?: {
+  error?: boolean;
+  description?: string;
+  url?: string;
+  statusCode?: number;
+}) => {
+  const {
+    error = false,
+    description = '',
+    url = 'row',
+    statusCode = 200,
+  } = options || {};
+
+  class ResponseDTO {
+    @ApiProperty({
+      example: error,
+    })
+    @IsNumber()
+    error: number;
+
+    @ApiProperty({
+      example: statusCode,
+    })
+    @IsNumber()
+    statusCode: number;
+
+    @ApiProperty({
+      example: `/api/v1/${url}`,
+    })
+    path: string;
+
+    @ApiProperty({
+      example: description,
+    })
+    message: string;
+
+    @ApiProperty({
+      example: {},
+    })
+    data: object;
+  }
+
+  return ResponseDTO;
+};

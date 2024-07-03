@@ -4,12 +4,12 @@ import { parse } from 'csv-parse/sync';
 
 import { CsvData } from '../types';
 
-export function validateAndParseToObjectId({ value, key }): Types.ObjectId {
+export const validateAndParseToObjectId = ({ value, key }): Types.ObjectId => {
   if (Types.ObjectId.isValid(value.toString())) {
     return new Types.ObjectId(value);
   }
   throw new BadRequestException(`${key} is not a valid MongoId`);
-}
+};
 
 export const buildCsv = (buffer: Buffer): CsvData => {
   const data = buffer.toString();

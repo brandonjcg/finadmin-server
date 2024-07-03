@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { CreateBankDto } from './dto';
+import { CreateBankDto, SelectBankDto } from './dto';
 import { Bank } from './schemas';
 import {
   QueryArgs,
@@ -45,13 +45,7 @@ export class BankService {
     return buildPaginationResponse(rows, total, queryArgs);
   }
 
-  async select(): Promise<
-    {
-      _id: string;
-      text: string;
-      logo: string;
-    }[]
-  > {
+  async select(): Promise<SelectBankDto[]> {
     const rows = await this.bankModel.aggregate([
       {
         $project: {

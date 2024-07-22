@@ -53,6 +53,11 @@ export class BankService {
           logo: '$logo',
         },
       },
+      {
+        $sort: {
+          text: 1,
+        },
+      },
     ]);
 
     return rows;

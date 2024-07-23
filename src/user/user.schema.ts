@@ -4,7 +4,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 @Schema({ timestamps: true })
 export class User extends Document {
-  @Prop({ required: true, type: String, unique: true })
+  @Prop({ required: true, type: String })
   @ApiProperty()
   email: string;
 

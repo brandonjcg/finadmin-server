@@ -29,7 +29,7 @@ export class ResponseInterceptor implements NestInterceptor {
     statusCode: number,
     exception?: HttpException,
   ) => {
-    if (statusCode < 300) {
+    if (statusCode < 400) {
       this.logger.log(`${request.method} ${request.url}`);
     } else {
       this.logger.error(`${request.method} ${request.url}`, exception.stack);

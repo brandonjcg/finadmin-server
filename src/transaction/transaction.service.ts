@@ -3,7 +3,11 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { Transaction } from './schemas';
 import { Bank, BankService, BanksIdsDto } from '../bank';
-import { CreateTransactionDto, SelectStoreDto } from './dto';
+import {
+  CreateTransactionDto,
+  SelectStoreDto,
+  UpdateMultipleRowsDto,
+} from './dto';
 import {
   PaginationResponse,
   QueryArgs,
@@ -163,5 +167,48 @@ export class TransactionService {
     ]);
 
     return rows.length ? rows[0] : { total: 0 };
+  }
+
+  async updateMultiplesRows(updateMultipleRowsDto: UpdateMultipleRowsDto) {
+    const dictionary = {
+      '1': {
+        isPaid: true,
+      },
+      '2': {
+        isReserved: true,
+      },
+      '3': {
+        isPaid: false,
+        isReserved: false,
+      },
+    };
+    const body = dictionary[updateMultipleRowsDto.idProcess];
+
+    const rowsNotExists = await this.transactionModel
+      .find({
+        _id: {
+          $in: updateMultipleRowsDto.rowsToUpdate.map(
+            (id) => new Types.ObjectId(id),
+          ),
+        },
+      })
+      .select('_id')
+      .exec();
+
+    if (rowsNotExists.length !== updateMultipleRowsDto.rowsToUpdate.length)
+      throw new HttpException('Some rows not found', HttpStatus.BAD_REQUEST);
+
+    await this.transactionModel.updateMany(
+      {
+        _id: {
+          $in: updateMultipleRowsDto.rowsToUpdate.map(
+            (id) => new Types.ObjectId(id),
+          ),
+        },
+      },
+      {
+        $set: body,
+      },
+    );
   }
 }

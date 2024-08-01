@@ -17,6 +17,7 @@ import {
   FileUploadDto,
   GroupByBanksDto,
   SelectStoreDto,
+  UpdateMultipleRowsDto,
 } from './dto';
 import { QueryArgs, GenericResponse } from '../common';
 import {
@@ -163,6 +164,27 @@ export class TransactionController {
 
     return {
       message: 'Transactions imported successfully',
+      data,
+    };
+  }
+
+  @Post('run-process')
+  @ApiOperation({ summary: 'Execute update to multiple transactions' })
+  @ApiResponse({
+    type: GenericResponse(UpdateMultipleRowsDto, {
+      description: 'Execute update to multiple transactions',
+      url: `${MODULE_NAME}/run-process`,
+    }),
+  })
+  async runProcess(
+    @Body() updateMultipleRowsDto: UpdateMultipleRowsDto,
+  ): Promise<object> {
+    const data = await this.transactionService.updateMultiplesRows(
+      updateMultipleRowsDto,
+    );
+
+    return {
+      message: 'Process executed successfully',
       data,
     };
   }

@@ -178,8 +178,8 @@ export class TransactionService {
         isReserved: true,
       },
       '3': {
-        isPaid: false,
-        isReserved: false,
+        isPaid: true,
+        isReserved: true,
       },
     };
     const body = dictionary[updateMultipleRowsDto.idProcess];

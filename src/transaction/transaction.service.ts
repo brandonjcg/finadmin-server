@@ -12,6 +12,7 @@ import {
   PaginationResponse,
   QueryArgs,
   buildPaginationResponse,
+  convertToOrc,
   createFilter,
   getOffsetAndLimit,
 } from '../common';
@@ -210,5 +211,29 @@ export class TransactionService {
         $set: body,
       },
     );
+  }
+
+  async createTransactionFromImg(imgs: Express.Multer.File[]) {
+    const result = [];
+
+    for (const img of imgs) {
+      const test = await convertToOrc(img.buffer);
+
+      const data = test.split('\n').map((line) => line.trim());
+      const dataJson = JSON.parse(JSON.stringify(data));
+
+      const amountRegex = /-?\$\d+(\.\d{2})?/;
+      const matches = amountRegex.exec(test);
+      const amount = matches ? Math.abs(+matches[0].replace('$', '')) : null;
+
+      // TODO: missing add another fields
+
+      result.push({
+        ammount: amount,
+        dataJson,
+      });
+    }
+
+    return result;
   }
 }

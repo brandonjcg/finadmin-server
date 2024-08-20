@@ -9,8 +9,9 @@ import {
   Query,
   UseInterceptors,
   UploadedFile,
+  UploadedFiles,
 } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { TransactionService } from './transaction.service';
 import {
   CreateTransactionDto,
@@ -182,6 +183,19 @@ export class TransactionController {
     const data = await this.transactionService.updateMultiplesRows(
       updateMultipleRowsDto,
     );
+
+    return {
+      message: 'Process executed successfully',
+      data,
+    };
+  }
+
+  @Post('create-transactions-from-img')
+  @UseInterceptors(FilesInterceptor('img'))
+  async createTransactionsFromImg(
+    @UploadedFiles() imgs: Express.Multer.File[],
+  ): Promise<object> {
+    const data = await this.transactionService.createTransactionFromImg(imgs);
 
     return {
       message: 'Process executed successfully',

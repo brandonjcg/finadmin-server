@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { SeedService } from './seed.service';
 import { SeedController } from './seed.controller';
 import { BankModule } from '../bank/bank.module';
-import { TransactionModule } from '@/transaction';
+import { TransactionModule } from '../transaction';
 
 @Module({
   controllers: [SeedController],

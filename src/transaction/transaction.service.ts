@@ -13,9 +13,9 @@ import {
   QueryArgs,
   buildPaginationResponse,
   createFilter,
+  buildCsv,
   getOffsetAndLimit,
 } from '../common';
-import { buildCsv } from '@/common';
 import { ITransactionCsv } from './types';
 
 @Injectable()

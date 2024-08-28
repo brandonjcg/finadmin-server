@@ -9,7 +9,7 @@ import {
 import { InjectModel } from '@nestjs/mongoose';
 import { JwtService } from '@nestjs/jwt';
 
-import { User } from '@/user';
+import { User } from '../user';
 import { GoogleUser } from './interfaces';
 
 export const expiresTimeTokenMilliseconds = 7 * 24 * 60 * 60 * 1000;

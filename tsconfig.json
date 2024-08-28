@@ -16,11 +16,7 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
-    "baseUrl": "./",
-    "paths": {
-      "@/*": ["src/*"],
-      "@common/*": ["src/common/*"]
-    }
+    "baseUrl": "."
   },
   "include": [
     "src/**/*",

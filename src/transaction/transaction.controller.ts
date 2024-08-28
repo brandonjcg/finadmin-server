@@ -27,7 +27,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Transaction } from './schemas';
-import { BanksIdsDto } from '@/bank';
+import { BanksIdsDto } from '../bank';
 
 const MODULE_NAME = 'transaction';
 

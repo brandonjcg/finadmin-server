@@ -8,7 +8,7 @@ import {
 import { ApiProperty } from '@nestjs/swagger';
 import { Types } from 'mongoose';
 import { Transform } from 'class-transformer';
-import { validateAndParseToObjectId } from '@/common';
+import { validateAndParseToObjectId } from '../../common';
 
 export class CreateTransactionDto {
   @IsNumber()

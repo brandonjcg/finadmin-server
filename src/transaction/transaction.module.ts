@@ -3,7 +3,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { TransactionService } from './transaction.service';
 import { TransactionController } from './transaction.controller';
 import { Transaction, TransactionSchema } from './schemas';
-import { BankModule } from '@/bank';
+import { BankModule } from '../bank';
 
 @Module({
   controllers: [TransactionController],

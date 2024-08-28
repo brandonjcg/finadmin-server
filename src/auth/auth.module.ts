@@ -5,7 +5,7 @@ import { GoogleStrategy, JwtStrategy } from './strategies';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-import { User, UserSchema } from '@/user';
+import { User, UserSchema } from '../user';
 
 @Module({
   controllers: [AuthController],

@@ -7,7 +7,7 @@ import {
   IsString,
   Min,
 } from 'class-validator';
-import { TODO } from '@/common';
+import { TODO } from '../../../common';
 
 export class QueryArgs {
   @IsOptional()

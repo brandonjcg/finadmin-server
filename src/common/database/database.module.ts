@@ -7,7 +7,7 @@ import * as mongoose from 'mongoose';
   imports: [
     MongooseModule.forRootAsync({
       useFactory: async (configService: ConfigService) => {
-        if (configService.get<string>('ENV').toLocaleLowerCase() !== 'prod')
+        if (configService.get<string>('ENV')?.toLocaleLowerCase() !== 'prod')
           mongoose.set('debug', true);
 
         return {

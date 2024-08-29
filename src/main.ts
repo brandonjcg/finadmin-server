@@ -8,7 +8,11 @@ import { ResponseInterceptor } from './logging.interceptor';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.use(cookieParser());
-  app.enableCors();
+  app.enableCors({
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  });
 
   const globalPrefix = 'api/v1';
   app.setGlobalPrefix(globalPrefix);

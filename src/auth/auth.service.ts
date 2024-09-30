@@ -92,6 +92,8 @@ export class AuthService {
       new Date().getTime() + expiresTimeTokenMilliseconds;
     const cookieOptions: CookieOptions = {
       httpOnly: true,
+      sameSite: 'none',
+      path: '/',
       expires: new Date(expirationDateInMilliseconds),
     };
 

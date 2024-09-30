@@ -1,5 +1,4 @@
 import { NestFactory } from '@nestjs/core';
-import { inject } from '@vercel/analytics';
 import { ValidationPipe, Logger } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import cookieParser from 'cookie-parser';
@@ -46,4 +45,3 @@ async function bootstrap() {
   // TODO: implementar borrado lógico
 }
 bootstrap();
-inject();

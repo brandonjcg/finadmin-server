@@ -8,7 +8,6 @@ import {
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { JwtService } from '@nestjs/jwt';
-
 import { User } from '../user';
 import { GoogleUser } from './interfaces';
 
@@ -96,7 +95,7 @@ export class AuthService {
       expires: new Date(expirationDateInMilliseconds),
     };
 
-    res.cookie(
+    return res.cookie(
       COOKIE_NAMES.JWT,
       this.jwtService.sign({
         id: user.id,

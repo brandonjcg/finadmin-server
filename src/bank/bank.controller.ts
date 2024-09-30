@@ -1,16 +1,14 @@
-import { Controller, Post, Body, Get, Query, UseGuards } from '@nestjs/common';
+import { Controller, Post, Body, Get, Query } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { BankService } from './bank.service';
 import { CreateBankDto, SelectBankDto } from './dto';
 import { GenericResponse, QueryArgs } from '../common';
 import { Bank } from './schemas';
-import { JwtGuard } from '../auth';
 
 const MODULE_NAME = 'bank';
 
 @ApiTags(MODULE_NAME)
 @Controller(MODULE_NAME)
-@UseGuards(JwtGuard)
 export class BankController {
   constructor(private readonly bankService: BankService) {}
 

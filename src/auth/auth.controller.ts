@@ -14,10 +14,7 @@ export class AuthController {
   @UseGuards(GoogleOAuthGuard)
   @Get('google-auth-redirect')
   async googleAuthRedirect(@Req() req, @Res() res: Response) {
-    const { encodedUser } = await this.authService.signInWithGoogle(
-      req.user,
-      res,
-    );
+    const { encodedUser } = await this.authService.signInWithGoogle(req.user);
 
     return res.redirect(
       `${process.env.GOOGLE_REDIRECT_URL_CLIENT_REACT}?jwtUser=${encodedUser}`,

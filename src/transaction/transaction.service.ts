@@ -14,9 +14,9 @@ import {
   buildPaginationResponse,
   convertToOrc,
   createFilter,
+  buildCsv,
   getOffsetAndLimit,
 } from '../common';
-import { buildCsv } from '@/common';
 import { ITransactionCsv } from './types';
 
 @Injectable()

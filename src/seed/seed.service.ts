@@ -1,8 +1,8 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
-import { Bank, CreateBankDto } from '@/bank';
-import { CreateTransactionDto, Transaction } from '@/transaction';
+import { Bank, CreateBankDto } from '../bank';
+import { CreateTransactionDto, Transaction } from '../transaction';
 
 @Injectable()
 export class SeedService {

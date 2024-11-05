@@ -4,6 +4,7 @@
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
+    "esModuleInterop": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
     "target": "es2022",
@@ -16,11 +17,7 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["src/*"],
-      "@common/*": ["src/common/*"]
-    }
+    "baseUrl": "."
   },
   "include": [
     "src/**/*",
@@ -28,6 +25,7 @@
     "tsconfig.json",
     "test/**/*",
     "commitlint.config.ts",
-    ".eslintrc.js"
+    ".eslintrc.js",
+    "**/*.json"
   ]
 }

@@ -1,4 +1,4 @@
-import { PaginationResponse } from '@common/types/index';
+import { PaginationResponse } from '../../common';
 import { QueryArgs } from '../dto';
 
 interface QueryArgsComplete extends QueryArgs {

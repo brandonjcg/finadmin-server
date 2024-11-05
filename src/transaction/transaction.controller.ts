@@ -10,6 +10,7 @@ import {
   UseInterceptors,
   UploadedFile,
   UploadedFiles,
+  UseGuards,
 } from '@nestjs/common';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { TransactionService } from './transaction.service';
@@ -28,12 +29,14 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Transaction } from './schemas';
-import { BanksIdsDto } from '@/bank';
+import { BanksIdsDto } from '../bank';
+import { JwtGuard } from '../auth';
 
 const MODULE_NAME = 'transaction';
 
 @ApiTags(MODULE_NAME)
 @Controller(MODULE_NAME)
+@UseGuards(JwtGuard)
 export class TransactionController {
   constructor(private readonly transactionService: TransactionService) {}
 

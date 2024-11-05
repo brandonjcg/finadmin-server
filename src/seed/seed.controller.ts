@@ -2,8 +2,8 @@ import { Controller, Post } from '@nestjs/common';
 import { SeedService } from './seed.service';
 import { Bank } from '../bank/schemas/bank.schema';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { Transaction } from '@/transaction';
-import { GenericEmptyResponse } from '@/common';
+import { Transaction } from '../transaction';
+import { GenericEmptyResponse } from '../common';
 
 const MODULE_NAME = 'seed';
 

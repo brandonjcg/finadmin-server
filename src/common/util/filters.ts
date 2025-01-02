@@ -30,6 +30,17 @@ export const createFilter = <T>(
       continue;
     }
 
+    const hasComma = String(value).includes(',');
+    if (hasComma) {
+      filters[key] = {
+        $in: String(value)
+          .split(',')
+          .map((item) => new Types.ObjectId(item)),
+      };
+
+      continue;
+    }
+
     filters[key] = {
       $regex: new RegExp(String(value), 'i'),
     };

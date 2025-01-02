@@ -19,6 +19,7 @@ export class CreateBankDto {
   @IsString()
   @ApiProperty()
   @IsNotEmpty()
+  @Transform(({ value }) => value.trim())
   readonly name: string;
 
   @IsString()

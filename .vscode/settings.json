@@ -1,0 +1,8 @@
+{
+    "conventionalCommits.scopes": [
+        "vercel",
+        "config",
+        "security",
+        "dto"
+    ]
+}

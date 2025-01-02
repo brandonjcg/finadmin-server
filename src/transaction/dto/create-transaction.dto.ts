@@ -19,6 +19,7 @@ export class CreateTransactionDto {
   @IsString()
   @IsNotEmpty()
   @ApiProperty()
+  @Transform(({ value }) => value.trim())
   readonly concept: string;
 
   @IsNotEmpty()
@@ -29,6 +30,7 @@ export class CreateTransactionDto {
   @IsString()
   @IsNotEmpty()
   @ApiProperty()
+  @Transform(({ value }) => value.trim())
   readonly store: string;
 
   @IsString()
@@ -38,6 +40,7 @@ export class CreateTransactionDto {
   @IsOptional()
   @IsString()
   @ApiProperty()
+  @Transform(({ value }) => value.trim())
   readonly additionalComments?: string;
 
   @IsBoolean()

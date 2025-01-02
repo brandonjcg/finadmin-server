@@ -47,7 +47,7 @@ export class ResponseInterceptor implements NestInterceptor {
         : HttpStatus.BAD_REQUEST;
     const errorMessage =
       exception instanceof HttpException
-        ? exception.getResponse()['message']
+        ? [exception.getResponse()['message']]
         : [exception['message']];
 
     this.loggerRequest(request, statusCode, exception);

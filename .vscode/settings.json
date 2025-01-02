@@ -3,6 +3,7 @@
         "vercel",
         "config",
         "security",
-        "dto"
+        "dto",
+        "api"
     ]
 }
